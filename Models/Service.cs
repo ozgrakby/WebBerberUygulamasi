@@ -16,8 +16,8 @@ namespace WebBerberUygulamasi.Models
         [Display(Name = "Hizmet Süresi ")]
         public int ServiceTime { get; set; }
         [Required]
-        public int EmployeeID {  get; set; }
+        public int UserID {  get; set; }
         [Required]
-        public Employee Employee { get; set; }
+        public User user { get; set; }
     }
 }

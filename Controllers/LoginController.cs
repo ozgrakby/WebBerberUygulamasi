@@ -28,6 +28,9 @@ namespace WebBerberUygulamasi.Controllers
                 {
                     string sessID = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(isUser.UserID))));
                     HttpContext.Session.SetString("sessID", sessID);
+                    HttpContext.Session.SetString("sessDisplay", isUser.UserEmail);
+                    string seesRole = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(isUser.UserRole))));
+                    HttpContext.Session.SetString("sessRole", seesRole);
                     TempData["msj"] = isUser.UserName + " " + isUser.UserSurname + " kullanıcısı giriş yaptı.";
                     return RedirectToAction("Success");
                 }

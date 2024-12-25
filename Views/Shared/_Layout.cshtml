@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@{    
+    string[] roles = new string[3];
+    roles[0] = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(1))));
+    roles[1] = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(2))));
+    roles[2] = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(3))));
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebBerberUygulamasi</title>
+    <title>@ViewData["Title"] - Berber Saü</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebBerberUygulamasi.styles.css" asp-append-version="true" />
@@ -12,19 +18,61 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebBerberUygulamasi</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Berber Saü</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Anasayfa</a>
                         </li>
-                        <li class="nav-item">
+                        @if (Context.Session.GetString("sessRole") == roles[0])
+                        {
+                            <h1>USER</h1>
+                        }
+                        @if (Context.Session.GetString("sessRole") == roles[1])
+                        {
+                            <h1>BERBER</h1>
+                        }
+                        @if (Context.Session.GetString("sessRole") == roles[2] || true)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminUser" asp-action="Index">Kullanıcılar</a></li>
+                                    <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminEmployee" asp-action="Index">Berberler</a></li>
+                                    <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminService" asp-action="Index">Hizmetler</a></li>
+                                    <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminAppointment" asp-action="Index">Randevular</a></li>
+                                </ul>
+                            </li>
+                        }
+                        <!--<li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        </li>-->
+                    </ul>
+                    <ul class="navbar-nav flex-grow-1 justify-content-end">
+                        @if (string.IsNullOrEmpty(Context.Session.GetString("sessID")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Register" asp-action="Index">Kayıt Ol</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Giriş Yap</a>
+                            </li>
+                        }
+                        else{
+                            <li class="nav-item">
+                                <b style="display: block; padding: .5rem 1rem; box-sizing: border-box;">@Context.Session.GetString("sessDisplay")</b>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Logout" asp-action="Index">Çıkış Yap</a>
+                            </li>
+                        }
+                        
                     </ul>
                 </div>
             </div>
@@ -38,7 +86,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - WebBerberUygulamasi - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - Berber Saü <!-- - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>-->
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

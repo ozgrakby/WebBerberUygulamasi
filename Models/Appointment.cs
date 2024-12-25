@@ -17,8 +17,8 @@ namespace WebBerberUygulamasi.Models
         [Required]
         public Service Service { get; set; }
         [Required]
-        public int CustomerID { get; set; }
+        public int UserID { get; set; }
         [Required]
-        public Customer Customer { get; set; }
+        public User user { get; set; }
     }
 }

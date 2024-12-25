@@ -23,15 +23,14 @@ namespace WebBerberUygulamasi.Controllers
             if (isUser is null)
             {
                 user.UserRole = 1;
-                var md5 = MD5.Create();
-                user.UserPassword = Convert.ToBase64String(md5.ComputeHash(Encoding.UTF8.GetBytes(user.UserPassword)));
+                user.UserPassword = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(user.UserPassword)));
 
                 if (ModelState.IsValid)
                 {
                     sc.Users.Add(user);
                     sc.SaveChanges();
                 }
-                TempData["msj"] = isUser.UserName + " " + isUser.UserSurname + " kullanıcısı kayıt oldu.";
+                TempData["msj"] = user.UserName + " " + user.UserSurname + " kullanıcısı kayıt oldu.";
                 return RedirectToAction("Success");
             }
             else {
