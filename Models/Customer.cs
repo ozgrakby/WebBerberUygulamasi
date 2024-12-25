@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebBerberUygulamasi.Models
 {
@@ -8,10 +7,9 @@ namespace WebBerberUygulamasi.Models
         [Key]
         public int CustomerID { get; set; }
         [Required]
-        [MaxLength(450)]
-        public string UserID { get; set; }
+        public int UserID { get; set; }
         [Required]
-        public IdentityUser User { get; set; }
+        public User user { get; set; }
 
         public ICollection<Appointment>? Appointments { get; set; }
     }
