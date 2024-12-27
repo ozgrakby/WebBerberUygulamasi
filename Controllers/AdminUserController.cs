@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 using WebBerberUygulamasi.Models;
 
 namespace WebBerberUygulamasi.Controllers
@@ -10,6 +12,28 @@ namespace WebBerberUygulamasi.Controllers
         public IActionResult Index()
         {
             return View(sc.Users.Where(x=>x.UserRole == 1).ToList());
+        }
+
+        public IActionResult Promote(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = sc.Users.Find(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                user.UserRole = 2;
+                sc.Users.Update(user);
+                sc.SaveChanges();
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Edit(int? id)
@@ -44,6 +68,7 @@ namespace WebBerberUygulamasi.Controllers
                 
                 return RedirectToAction(nameof(Index));
             }
+
             return View(user);
         }
 

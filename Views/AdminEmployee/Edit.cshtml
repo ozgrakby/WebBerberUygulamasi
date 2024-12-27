@@ -1,7 +1,7 @@
 ﻿@model WebBerberUygulamasi.Models.User
 
 @{
-    ViewData["Title"] = "Kullanıcı Düzenle";
+    ViewData["Title"] = "Berber Düzenle";
 }
 <div class="row">
     <div class="col-md-4">
@@ -28,8 +28,8 @@
                 <input asp-for="UserPhone" class="form-control" />
                 <span asp-validation-for="UserPhone" class="text-danger"></span>
             </div>
-             <input type="hidden" asp-for="UserRole" />
-             <input type="hidden" asp-for="UserPassword" />
+            <input type="hidden" asp-for="UserRole" />
+            <input type="hidden" asp-for="UserPassword" />
             <div class="form-group">
                 <input type="submit" value="Kaydet" class="btn btn-primary" />
             </div>
@@ -38,7 +38,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Kullanıcı listesine geri dön</a>
+    <a asp-action="Index">Berber listesine geri dön</a>
 </div>
 
 @section Scripts {
