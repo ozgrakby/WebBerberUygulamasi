@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Text;
 using WebBerberUygulamasi.Models;
 
@@ -18,7 +20,7 @@ namespace WebBerberUygulamasi.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(User user)
+        public async Task<IActionResult> Index(User user)
         {
             var isUser = sc.Users.FirstOrDefault(x=>x.UserEmail == user.UserEmail);
             if (isUser is null)
@@ -28,8 +30,17 @@ namespace WebBerberUygulamasi.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    sc.Users.Add(user);
-                    sc.SaveChanges();
+                    var client = new HttpClient();
+                    string json = JsonConvert.SerializeObject(user);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PostAsync("http://localhost:5243/api/Users", content);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        TempData["msj"] = $"Error: {response.StatusCode}";
+                        return RedirectToAction("Failed");
+                    }
+                    //sc.Users.Add(user);
+                    //sc.SaveChanges();
                 }                
                 TempData["msj"] = user.UserName + " " + user.UserSurname + " kullanıcısı kayıt oldu.";
                 return RedirectToAction("Success");

@@ -1,8 +1,79 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    string[] roles = new string[3];
+    roles[0] = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(1))));
+    roles[1] = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(2))));
+    roles[2] = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(3))));
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="jumbotron text-center bg-light py-5">
+    <h1 class="display-4">Berbere Saü'ye Hoşgeldin!</h1>
+    <p class="lead">Sakarya Üniversitesi ve Sakarya'da en iyi berber salonu olduğumuz doğrudur.</p>
+    @if (Context.Session.GetString("sessID") is not null)
+    {
+        @if (Context.Session.GetString("sessRole") == roles[0])
+        {
+            <a asp-area="" asp-controller="UserAppointment" asp-action="CreateAppointment" class="btn btn-primary btn-lg">Hemen Randevu Al!</a>
+        }
+    }
+    
+</div>
+
+<!-- Services Section -->
+<div class="container mt-5">
+    <h2 class="text-center">Verdiğimiz Hizmetler</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img src="./sac.jpg" style="max-width:300px;" class="card-img-top" alt="Saç Kesimi">
+                <div class="card-body">
+                    <h5 class="card-title">Saç Kesimi</h5>
+                    <p class="card-text">Keskin makasımızla sizin istediğiniz saçı ortaya çıkarırız.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="./sakal.jpeg" style="max-width:300px;" class="card-img-top" alt="Sakal Tıraşı">
+                <div class="card-body">
+                    <h5 class="card-title">Sakal Tıraşı</h5>
+                    <p class="card-text">Sakalınızı mükemmelleştiriz.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="./bakım.jpeg" style="max-width:300px;" class="card-img-top" alt="Bakım">
+                <div class="card-body">
+                    <h5 class="card-title">Bakım</h5>
+                    <p class="card-text">Size kişisel bakımınızda yardımcı oluruz.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <h2 class="text-center">Müşterilerimiz bizim hakkımızda neler söylüyor</h2>
+    <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <p class="text-center">"Gördüğüm en iyi saç kesimi!"</p>
+                <footer class="blockquote-footer text-center">Ahmet Yılmaz</footer>
+            </div>
+            <div class="carousel-item">
+                <p class="text-center">"Şiddetle öneririm! Profesyonel bir hizmet kalitesi var."</p>
+                <footer class="blockquote-footer text-center">Mehmet Arslan</footer>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Önceki</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Sonraki</span>
+        </button>
+    </div>
 </div>
