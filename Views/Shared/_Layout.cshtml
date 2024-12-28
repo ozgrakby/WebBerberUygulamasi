@@ -1,8 +1,13 @@
-﻿@{    
+﻿@{
     string[] roles = new string[3];
     roles[0] = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(1))));
     roles[1] = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(2))));
     roles[2] = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(3))));
+    int userID = 0;
+    if (Context.Session.GetString("sessID") is not null){
+        userID = Convert.ToInt32(new AESEncryptionService().Decrypt(Context.Session.GetString("sessID")));  
+    }
+    
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -28,28 +33,35 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Anasayfa</a>
                         </li>
-                        @if (Context.Session.GetString("sessRole") == roles[0])
+                        @if (Context.Session.GetString("sessID") is not null)
                         {
-                            <h1>USER</h1>
-                        }
-                        @if (Context.Session.GetString("sessRole") == roles[1])
-                        {
-                            <h1>BERBER</h1>
-                        }
-                        @if (Context.Session.GetString("sessRole") == roles[2] || true)
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Admin
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminShop" asp-action="Index">Salon</a></li>
-                                    <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminUser" asp-action="Index">Kullanıcılar</a></li>
-                                    <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminEmployee" asp-action="Index">Berberler</a></li>
-                                    <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminService" asp-action="Index">Hizmetler</a></li>
-                                    <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminAppointment" asp-action="Index">Randevular</a></li>
-                                </ul>
-                            </li>
+                            @if (Context.Session.GetString("sessRole") == roles[0] || true)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="UserAppointment" asp-action="CreateAppointment">Randevu Al</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="UserAppointment" asp-action="Index">Alınan Randevular</a>
+                                </li>
+                            }
+                            @if (Context.Session.GetString("sessRole") == roles[1] || true)
+                            {
+                                <p>BERBER</p>
+                            }
+                            @if (Context.Session.GetString("sessRole") == roles[2] || true)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Admin
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminShop" asp-action="Index">Salon</a></li>
+                                        <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminUser" asp-action="Index">Kullanıcılar</a></li>
+                                        <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminEmployee" asp-action="Index">Berberler</a></li>
+                                        <li><a class="text-dark dropdown-item" asp-area="" asp-controller="AdminAppointment" asp-action="Index">Randevular</a></li>
+                                    </ul>
+                                </li>
+                            }
                         }
                         <!--<li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

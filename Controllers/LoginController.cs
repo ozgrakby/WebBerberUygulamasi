@@ -26,17 +26,25 @@ namespace WebBerberUygulamasi.Controllers
                 
                 if(isUser.UserPassword == lm.UserPassword)
                 {
-                    string sessID = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(isUser.UserID))));
-                    HttpContext.Session.SetString("sessID", sessID);
+                    HttpContext.Session.SetString("sessID", new AESEncryptionService().Encrypt(Convert.ToString(isUser.UserID)));
                     HttpContext.Session.SetString("sessDisplay", isUser.UserEmail);
                     string seesRole = Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(Convert.ToString(isUser.UserRole))));
                     HttpContext.Session.SetString("sessRole", seesRole);
                     TempData["msj"] = isUser.UserName + " " + isUser.UserSurname + " kullanıcısı giriş yaptı.";
                     return RedirectToAction("Success");
                 }
+                else
+                {
+                    TempData["msj"] = "Şifre yanlış.";
+                    return RedirectToAction("Failed");
+                }
             }
-            TempData["msj"] = "Böyle bir kullanıcı bulunamadı.";
-            return RedirectToAction("Failed");
+            else
+            {
+                TempData["msj"] = "Böyle bir kullanıcı bulunamadı.";
+                return RedirectToAction("Failed");
+            }
+            
         }
         public IActionResult Success()
         {
