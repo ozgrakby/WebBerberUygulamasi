@@ -1,0 +1,72 @@
+﻿@model IEnumerable<WebBerberUygulamasi.Models.AppointmentList>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Hizmet
+            </th>
+            <th>
+                Müşteri
+            </th>
+            <th>
+                Randevu Tarihi
+            </th>
+            <th>
+                Randevu Onay
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if(item.AppointmentTime > DateTime.Now){
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ServiceName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BarberName) @Html.DisplayFor(modelItem => item.BarberSurname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AppointmentTime)
+                    </td>
+                    @if(item.AppointmentConfirmed){
+                        <td>
+                            Onaylandı.
+                        </td>
+                        <td>
+                        </td>
+                    }else{
+                        <td>
+                            <a asp-action="Confirm" asp-route-id="@item.AppointmentID">Onayla</a>
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.AppointmentID">Sil</a>
+                        </td>
+                    }                    
+                    
+                </tr>
+            }
+            else{
+                <tr style="background-color:#C0C0C0;">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ServiceName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BarberName) @Html.DisplayFor(modelItem => item.BarberSurname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AppointmentTime)
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

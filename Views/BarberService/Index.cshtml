@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WebBerberUygulamasi.Models.Service>
+
+@{
+    ShopContext sc = new ShopContext();
+    User user = sc.Users.Where(x=>x.UserID == Model.First().UserID).FirstOrDefault();
+    ViewData["Title"] = user.UserName + " " + user.UserSurname + " Hizmetleri";
+}
+
+<p>
+    <a asp-action="Create" asp-route-id="@Model.First().UserID">Yeni bir hizmet ekle.</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServicePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var appointments = sc.Appointments.Where(x => x.ServiceID == item.ServiceID).FirstOrDefault();
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServicePrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceTime)
+                </td>
+                    @if (appointments is not null)
+                    {
+                        <td>
+                            <b> Bu hizmetler kullanılmaktadır.</b>
+                        </td>
+                    }else{
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ServiceID">Düzenle</a> |
+                            <a asp-action="Delete" asp-route-id="@item.ServiceID">Sil</a>
+                        </td>
+                    }
+            </tr>
+        }
+</table>

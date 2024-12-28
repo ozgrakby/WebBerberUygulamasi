@@ -35,7 +35,7 @@
                         </li>
                         @if (Context.Session.GetString("sessID") is not null)
                         {
-                            @if (Context.Session.GetString("sessRole") == roles[0] || true)
+                            @if (Context.Session.GetString("sessRole") == roles[0])
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="UserAppointment" asp-action="CreateAppointment">Randevu Al</a>
@@ -44,11 +44,16 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="UserAppointment" asp-action="Index">Alınan Randevular</a>
                                 </li>
                             }
-                            @if (Context.Session.GetString("sessRole") == roles[1] || true)
+                            @if (Context.Session.GetString("sessRole") == roles[1])
                             {
-                                <p>BERBER</p>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="BarberAppointment" asp-action="Index">Randevular</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="BarberService" asp-action="Index">Hizmetler</a>
+                                </li>
                             }
-                            @if (Context.Session.GetString("sessRole") == roles[2] || true)
+                            @if (Context.Session.GetString("sessRole") == roles[2])
                             {
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
