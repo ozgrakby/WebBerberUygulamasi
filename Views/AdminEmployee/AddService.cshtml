@@ -1,0 +1,69 @@
+﻿@model WebBerberUygulamasi.Models.Service
+
+@{
+    int id = 0;
+    ShopContext sc = new ShopContext();
+    if (ViewData["UserID"] is not null)
+    {
+        User user = sc.Users.Where(x => x.UserID == (int)ViewData["UserID"]).First();
+        ViewData["Title"] = user.UserName + " " + user.UserSurname + " Hizmet Ekle";
+        id = (int)ViewData["UserID"];
+        TempData["UserID"] = id;
+        ViewData["UserID"] = id;
+        <h4>@user.UserName @user.UserSurname için hizmet oluştur</h4>
+    }else{
+        id = 0;
+        TempData["UserID"] = id;
+        ViewData["UserID"] = id;
+    }
+    
+}
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddService">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ServiceName" class="control-label"></label>
+                <input asp-for="ServiceName" class="form-control" />
+                <span asp-validation-for="ServiceName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServicePrice" class="control-label"></label>
+                <input asp-for="ServicePrice" class="form-control" />
+                <span asp-validation-for="ServicePrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServiceTime" class="control-label"></label>
+                <input asp-for="ServiceTime" class="form-control" />
+                <span asp-validation-for="ServiceTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="UserID" value="@id" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Oluştur" class="btn btn-primary" />
+            </div>            
+        </form>
+    </div>
+</div>
+
+@if (sc.Services.Where(x => x.UserID == id).ToList().Count != 0)
+{
+    <div>
+        <a asp-action="Services" asp-route-id="@id">Hizmetlere geri dön.</a>
+    </div>
+} else{
+    <div>
+        <a asp-action="Index">Berberlere geri dön.</a>
+    </div>
+}
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

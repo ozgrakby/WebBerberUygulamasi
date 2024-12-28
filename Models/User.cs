@@ -35,5 +35,6 @@ namespace WebBerberUygulamasi.Models
         [Display(Name = "Şifre")]
         [DataType(DataType.Password)]
         public string UserPassword { get; set; }
+        public ICollection<Service>? services { get; set; }
     }
 }

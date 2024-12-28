@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebBerberUygulamasi.Models;
 
@@ -11,9 +12,11 @@ using WebBerberUygulamasi.Models;
 namespace WebBerberUygulamasi.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20241228103538_ServiceUpdated")]
+    partial class ServiceUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,7 @@ namespace WebBerberUygulamasi.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Appointments", (string)null);
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("WebBerberUygulamasi.Models.Service", b =>
@@ -76,7 +79,7 @@ namespace WebBerberUygulamasi.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("WebBerberUygulamasi.Models.Shop", b =>
@@ -95,7 +98,7 @@ namespace WebBerberUygulamasi.Migrations
 
                     b.HasKey("ShopID");
 
-                    b.ToTable("Shop", (string)null);
+                    b.ToTable("Shop");
                 });
 
             modelBuilder.Entity("WebBerberUygulamasi.Models.User", b =>
@@ -134,7 +137,7 @@ namespace WebBerberUygulamasi.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("WebBerberUygulamasi.Models.Appointment", b =>

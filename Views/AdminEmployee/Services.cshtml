@@ -1,0 +1,50 @@
+﻿@model IEnumerable<WebBerberUygulamasi.Models.Service>
+
+@{
+	ShopContext sc = new ShopContext();
+	User user = sc.Users.Where(x=>x.UserID == Model.First().UserID).FirstOrDefault();
+	ViewData["Title"] = user.UserName + " " + user.UserSurname + " Hizmetleri";
+}
+
+<p>
+    <a asp-action="AddService" asp-route-id="@Model.First().UserID">Yeni bir hizmet ekle.</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServicePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServicePrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceTime)
+                </td>
+                <td>
+                    <a asp-action="EditService" asp-route-id="@item.ServiceID">Düzenle</a> |
+                    <a asp-action="DeleteService" asp-route-id="@item.ServiceID">Sil</a>
+                </td>
+            </tr>
+        }
+</table>
+<div>
+    <a asp-action="Index">Berberlere geri dön.</a>
+</div>

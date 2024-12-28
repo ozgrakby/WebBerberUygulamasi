@@ -2,9 +2,8 @@
 
 namespace WebBerberUygulamasi.Models
 {
-    public class Service
+    public class ServiceView
     {
-        [Key]
         public int ServiceID { get; set; }
         [Required]
         [Display(Name = "Hizmet Adı ")]
@@ -16,7 +15,6 @@ namespace WebBerberUygulamasi.Models
         [Display(Name = "Hizmet Süresi ")]
         public int ServiceTime { get; set; }
         [Required]
-        public int UserID {  get; set; }
-        public User user { get; set; }
+        public int UserID { get; set; }
     }
 }

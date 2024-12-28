@@ -1,0 +1,28 @@
+﻿@model WebBerberUygulamasi.Models.Shop
+
+@{
+    ViewData["Title"] = "Salon";
+}
+
+<h1>Salon Bilgileri</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.ShopOpening)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ShopOpening)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ShopClosing)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.ShopClosing)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ShopID">Düzenle</a>
+</div>

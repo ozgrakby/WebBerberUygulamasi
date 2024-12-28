@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
@@ -29,7 +30,7 @@ namespace WebBerberUygulamasi.Controllers
                 {
                     sc.Users.Add(user);
                     sc.SaveChanges();
-                }
+                }                
                 TempData["msj"] = user.UserName + " " + user.UserSurname + " kullanıcısı kayıt oldu.";
                 return RedirectToAction("Success");
             }

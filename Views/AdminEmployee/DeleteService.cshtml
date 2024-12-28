@@ -1,0 +1,39 @@
+﻿@model WebBerberUygulamasi.Models.Service
+
+@{
+    ShopContext sc = new ShopContext();
+    var user = sc.Users.Find(Model.UserID);
+    ViewData["Title"] = user.UserName + " " + user.UserSurname + " " + "Hizmet Sil";
+}
+
+<h3>Bu hizmeti silmeye emin misin?</h3>
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ServiceName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ServiceName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ServicePrice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ServicePrice)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ServicePrice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ServicePrice)
+        </dd>
+    </dl>
+    
+    <form asp-action="DeleteService" asp-route-id="@Model.ServiceID">
+        <input type="hidden" asp-for="ServiceID" />
+        <input type="submit" value="Sil" class="btn btn-danger" /> |
+        <a asp-action="Services" asp-route-id="@Model.UserID">@user.UserName @user.UserSurname adlı kullanıcının hizmet listesine geri dön</a>
+    </form>
+</div>

@@ -9,22 +9,23 @@ using WebBerberUygulamasi.Models;
 
 namespace WebBerberUygulamasi.Controllers
 {
-    public class UsersController : Controller
+    public class ServicesController : Controller
     {
         private readonly ShopContext _context;
 
-        public UsersController(ShopContext context)
+        public ServicesController(ShopContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Services
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            var shopContext = _context.Services.Include(s => s.user);
+            return View(await shopContext.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Services/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +33,42 @@ namespace WebBerberUygulamasi.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserID == id);
-            if (user == null)
+            var service = await _context.Services
+                .Include(s => s.user)
+                .FirstOrDefaultAsync(m => m.ServiceID == id);
+            if (service == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(service);
         }
 
-        // GET: Users/Create
+        // GET: Services/Create
         public IActionResult Create()
         {
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "UserEmail");
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Services/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,UserName,UserSurname,UserEmail,UserPhone,UserRole,UserPassword")] User user)
+        public async Task<IActionResult> Create([Bind("ServiceID,ServiceName,ServicePrice,ServiceTime,UserID")] Service service)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(service);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "UserEmail", service.UserID);
+            return View(service);
         }
 
-        // GET: Users/Edit/5
+        // GET: Services/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +76,23 @@ namespace WebBerberUygulamasi.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var service = await _context.Services.FindAsync(id);
+            if (service == null)
             {
                 return NotFound();
             }
-            return View(user);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "UserEmail", service.UserID);
+            return View(service);
         }
 
-        // POST: Users/Edit/5
+        // POST: Services/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserName,UserSurname,UserEmail,UserPhone,UserRole,UserPassword")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("ServiceID,ServiceName,ServicePrice,ServiceTime,UserID")] Service service)
         {
-            if (id != user.UserID)
+            if (id != service.ServiceID)
             {
                 return NotFound();
             }
@@ -96,12 +101,12 @@ namespace WebBerberUygulamasi.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(service);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.UserID))
+                    if (!ServiceExists(service.ServiceID))
                     {
                         return NotFound();
                     }
@@ -112,10 +117,11 @@ namespace WebBerberUygulamasi.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "UserEmail", service.UserID);
+            return View(service);
         }
 
-        // GET: Users/Delete/5
+        // GET: Services/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,34 +129,35 @@ namespace WebBerberUygulamasi.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserID == id);
-            if (user == null)
+            var service = await _context.Services
+                .Include(s => s.user)
+                .FirstOrDefaultAsync(m => m.ServiceID == id);
+            if (service == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(service);
         }
 
-        // POST: Users/Delete/5
+        // POST: Services/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            var service = await _context.Services.FindAsync(id);
+            if (service != null)
             {
-                _context.Users.Remove(user);
+                _context.Services.Remove(service);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool ServiceExists(int id)
         {
-            return _context.Users.Any(e => e.UserID == id);
+            return _context.Services.Any(e => e.ServiceID == id);
         }
     }
 }
